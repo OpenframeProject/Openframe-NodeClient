@@ -30,7 +30,7 @@
     <script type="text/javascript">
     var $body = $('body');
 
-    $.getJSON('http://localhost:3000/config', function(resp) {
+    $.getJSON('http://localhost:7000/config', function(resp) {
         // resp should contain the username and root_domain
         connect_ws(resp.root_domain, resp.username);
     });
