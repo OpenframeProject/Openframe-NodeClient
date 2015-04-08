@@ -1,0 +1,17 @@
+{
+  "name": "OpenFrame-NodeClient",
+  "version": "0.0.1",
+  "description": "Node-based OpenFrame client",
+  "main": "frame.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "commander": "^2.7.1",
+    "connect": "^3.3.5",
+    "open": "0.0.5",
+    "serve-static": "^1.9.2"
+  }
+}

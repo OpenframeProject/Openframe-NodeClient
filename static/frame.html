@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Frame</title>
+    <style type="text/css">
+    * {
+        cursor: none
+    }
+    
+    html,
+    body {
+        width: 100%;
+        height: 100%;
+        padding: 0;
+        margin: 0;
+        background-color: #000;
+    }
+    
+    body {
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-size: cover;
+    }
+    </style>
+</head>
+
+<body>
+    <script type="text/javascript" src="/js/libs/jquery-2.1.3.js"></script>
+    <script type="text/javascript">
+    var $body = $('body');
+
+    $.getJSON('http://localhost:3000/config', function(resp) {
+        // resp should contain the username and root_domain
+        connect_ws(resp.root_domain, resp.username);
+    });
+
+    // initializes WebSocket connection
+    function connect_ws(root_domain, username) {
+        console.log('init WebSocket connection as ' + username);
+        var ws = new WebSocket("ws://" + root_domain + "/ws/" + username);
+        ws.onopen = function() {
+            ws.send("connecting as " + username);
+        };
+        ws.onmessage = function(evt) {
+            var data = JSON.parse(evt.data);
+            console.log(data);
+            if (data.url) {
+                $body.css({
+                    'background-image': 'url("' + data.url + '")'
+                });
+            }
+
+        };
+    }
+    </script>
+</body>
+
+</html>
