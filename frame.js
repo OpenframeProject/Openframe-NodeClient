@@ -5,7 +5,8 @@ var program = require('commander')
 program
   .version('0.0.1')
   .option('-u, --username <username>', 'Username to which this frame will be linked.')
-  .option('-r, --root <root>', 'The root domain at which the frame server is accessible.')
+  .option('-d, --domain <domain>', 'The root domain (including port) at which the frame server is accessible. Defaults to localhost:8888.')
+  .option('-c, --chromium', 'If this flag is present, force the use chromium.')
   .parse(process.argv)
  
 if (!program.username) {
@@ -17,7 +18,8 @@ if (!program.username) {
 }
 
 var username = program.username,
-	root_domain = program.root || "localhost:8888";
+	root_domain = program.domain || "localhost:8888",
+	chromium = program.chromium;
 
 var connect = require('connect')
 var http = require('http')
@@ -52,12 +54,18 @@ http.createServer(app).listen(7000)
 
 // if we're on linux, let's try to open the thing with chromium in kiosk mode
 if(/^linux/.test(process.platform)) {
-	console.log('linux');
+	console.log('linux', process.platform);
 	exec('xinit /usr/bin/chromium --kiosk http://localhost:7000', function (error, stdout, stderr) {
 		console.log(error, stdout, stderr);
 	});
 } else {
-	console.log('not linux');
-	open("http://localhost:7000");
+	console.log('not linux', process.platform);
+	if(chromium) {
+		exec('/Applications/Chromium.app/Contents/MacOS/Chromium --kiosk http://localhost:7000', function (error, stdout, stderr) {
+			console.log(error, stdout, stderr);
+		});
+	} else {
+		open("http://localhost:7000");
+	}
 }
 
