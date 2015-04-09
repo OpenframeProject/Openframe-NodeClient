@@ -46,8 +46,15 @@
             var data = JSON.parse(evt.data);
             console.log(data);
             if (data.url) {
-                $body.css({
-                    'background-image': 'url("' + data.url + '")'
+                $body.animate({
+                    'opacity': 0
+                }, 1000, function() {
+                    $body.css({
+                        'background-image': 'url("' + data.url + '")'
+                    });
+                    $body.animate({
+                        'opacity': 1
+                    }, 1000);
                 });
             }
 
