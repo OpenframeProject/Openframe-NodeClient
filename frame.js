@@ -5,10 +5,10 @@ var program = require('commander')
 program
   .version('0.0.1')
   .option('-u, --username <username>', 'Username to which this frame will be linked.')
-  .option('-d, --domain <domain>', 'The root domain (including port) at which the frame server is accessible. Defaults to localhost:8888.')
+  .option('-d, --dom <dom>', 'The root domain (including port) at which the frame server is accessible. Defaults to localhost:8888.')
   .option('-c, --chromium', 'If this flag is present, force the use chromium.')
   .parse(process.argv)
- 
+
 if (!program.username) {
 	console.log('Username is required.')
 	program.outputHelp()
@@ -18,7 +18,7 @@ if (!program.username) {
 }
 
 var username = program.username,
-	root_domain = program.domain || "localhost:8888",
+	root_domain = program.dom || "localhost:8888",
 	chromium = program.chromium;
 
 var connect = require('connect')
