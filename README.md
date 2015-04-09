@@ -38,13 +38,13 @@ You should now be able to run the client (see Usage).
 ### Usage
 
 ```bash
-$ ./frame.js -u username [-d domain] [-c]
+$ node frame.js -u username [-d domain] [-c]
 ```
 
 As an example, to start up the frame for user jonwohl, with a server at www.openframe.io:
 
 ```bash
-$ ./frame.js -u jonwohl -d www.openframe.io
+$ node frame.js -u jonwohl -d www.openframe.io
 ```
 
 The presence of the `-c` flag will force the system to try to open the frame using Chromium instead of whatever the default browser is. At present, on linux Chromium is a required dependency, and will always be used.
