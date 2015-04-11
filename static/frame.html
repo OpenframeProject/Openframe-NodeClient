@@ -28,19 +28,33 @@
 <body>
     <script type="text/javascript" src="/js/libs/jquery-2.1.3.js"></script>
     <script type="text/javascript">
-    var $body = $('body');
+    var $body = $('body'),
+        connected = false,
+        domain,
+        user;
 
     $.getJSON('http://localhost:7000/config', function(resp) {
         // resp should contain the username and root_domain
-        connect_ws(resp.root_domain, resp.username);
+        domain = resp.root_domain;
+        user = resp.username;
+        setInterval(check_connection, 5000);
+        check_connection();
     });
+
+    function check_connection() {
+        if (!connected) {
+            connect_ws(domain, user);
+        }
+    }
 
     // initializes WebSocket connection
     function connect_ws(root_domain, username) {
         console.log('init WebSocket connection as ' + username);
         var ws = new WebSocket("ws://" + root_domain + "/ws/" + username);
         ws.onopen = function() {
+            console.log('connection open');
             ws.send("connecting as " + username);
+            connected = true;
         };
         ws.onmessage = function(evt) {
             var data = JSON.parse(evt.data);
@@ -57,7 +71,10 @@
                     }, 1000);
                 });
             }
-
+        };
+        ws.onclose = function(evt) {
+            console.log('connection closed');
+            connected = false;
         };
     }
     </script>
