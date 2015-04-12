@@ -55,7 +55,8 @@ http.createServer(app).listen(7000)
 // if we're on linux, let's try to open the thing with chromium in kiosk mode
 if(/^linux/.test(process.platform)) {
 	console.log('linux', process.platform);
-	exec('xinit /usr/bin/chromium --kiosk http://localhost:7000', function (error, stdout, stderr) {
+	var xinitrc_path = __dirname + '/bin/.xinitrc';
+	exec('xinit ' + xinitrc_path, function (error, stdout, stderr) {
 		console.log(error, stdout, stderr);
 	});
 } else {
