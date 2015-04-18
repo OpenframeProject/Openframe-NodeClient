@@ -53,7 +53,13 @@
         var ws = new WebSocket("ws://" + root_domain + "/ws/" + username);
         ws.onopen = function() {
             console.log('connection open');
-            ws.send("connecting as " + username);
+            var settings = {
+                event: 'setup',
+                screen_width: window.screen.width,
+                screen_height: window.screen.height
+            };
+            console.log(settings);
+            ws.send(JSON.stringify(settings));
             connected = true;
         };
         ws.onmessage = function(evt) {
