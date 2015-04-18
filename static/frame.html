@@ -55,8 +55,10 @@
             console.log('connection open');
             var settings = {
                 event: 'setup',
-                screen_width: window.screen.width,
-                screen_height: window.screen.height
+                // screen_width: window.screen.availWidth,
+                // screen_height: window.screen.availHeight
+                screen_width: window.innerWidth,
+                screen_height: window.innerHeight
             };
             console.log(settings);
             ws.send(JSON.stringify(settings));
