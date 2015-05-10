@@ -38,8 +38,13 @@ var conf;
 
 
 // If reset flag is present, remove the conf
-if (reset) fs.unlinkSync('./conf.json');
-
+if (reset) {
+	try {
+		fs.unlinkSync('./conf.json');
+	} catch(e) {
+		// file missing, do nothing
+	}
+}
 
 var app = connect();
 
