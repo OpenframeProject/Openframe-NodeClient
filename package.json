@@ -11,7 +11,10 @@
   "dependencies": {
     "commander": "^2.7.1",
     "connect": "^3.3.5",
+    "node-uuid": "^1.4.3",
     "open": "0.0.5",
+    "request": "^2.55.0",
+    "request-json": "^0.5.3",
     "serve-static": "^1.9.2"
   }
 }

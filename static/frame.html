@@ -31,31 +31,37 @@
     var $body = $('body'),
         connected = false,
         domain,
-        user;
+        username,
+        framename,
+        frame_id;
 
     $.getJSON('http://localhost:7000/config', function(resp) {
         // resp should contain the username and root_domain
         domain = resp.root_domain;
-        user = resp.username;
+        username = resp.owner;
+        framename = resp.name;
+        frame_id = resp._id.$oid;
         setInterval(check_connection, 5000);
         check_connection();
     });
 
     function check_connection() {
         if (!connected) {
-            connect_ws(domain, user);
+            connect_ws(domain, frame_id);
         }
     }
 
     // initializes WebSocket connection
-    function connect_ws(root_domain, username) {
-        console.log('init WebSocket connection as ' + username);
-        var ws = new WebSocket("ws://" + root_domain + "/ws/" + username);
+    function connect_ws(root_domain, frame_id) {
+        console.log('init WebSocket connection for this frame ' + frame_id);
+        var ws = new WebSocket("ws://" + root_domain + "/ws/" + frame_id);
+
         ws.onopen = function() {
             console.log('connection open');
-            ws.send("connecting as " + username);
+            ws.send("connecting as " + frame_id);
             connected = true;
         };
+
         ws.onmessage = function(evt) {
             var data = JSON.parse(evt.data);
             console.log(data);
@@ -72,6 +78,7 @@
                 });
             }
         };
+
         ws.onclose = function(evt) {
             console.log('connection closed');
             connected = false;
