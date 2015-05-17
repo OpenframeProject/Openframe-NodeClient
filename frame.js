@@ -38,6 +38,7 @@ var conf;
 
 
 // If reset flag is present, remove the conf
+// TODO: delete existing frame from server on reset.
 if (reset) {
 	try {
 		fs.unlinkSync('./conf.json');
