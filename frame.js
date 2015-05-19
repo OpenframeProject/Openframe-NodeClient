@@ -6,7 +6,7 @@ program
     .version('0.0.1')
     .option('-u, --username <username>', 'Username to which this frame will be linked.')
     .option('-f, --framename <framename>', 'Name for the frame.')
-    .option('-d, --domain <domain>', 'The root domain (including port) at which the frame server is accessible. Defaults to localhost:8888.')
+    .option('-d, --dom <dom>', 'The root domain (including port) at which the frame server is accessible. Defaults to localhost:8888.')
     .option('-r, --reset', 'If present, reset the configuration, i.e. treat this as an entirely new frame.')
     .option('-c, --chromium', 'If this flag is present, force the use chromium.')
     .parse(process.argv);
@@ -20,7 +20,7 @@ if (!program.username) {
 }
 
 var username = program.username,
-    root_domain = program.domain || "localhost:8888",
+    root_domain = program.dom || "localhost:8888",
     chromium = program.chromium,
     reset = program.reset,
     framename = program.framename || 'New Frame';
