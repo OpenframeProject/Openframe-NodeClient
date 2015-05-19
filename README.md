@@ -38,14 +38,16 @@ You should now be able to run the client (see Usage).
 ### Usage
 
 ```bash
-$ node frame.js -u username [-d domain] [-c]
+$ node frame.js -u username -f framename [-d domain] [-c] [-r]
 ```
 
 As an example, to start up the frame for user jonwohl, with a server at www.openframe.io:
 
 ```bash
-$ node frame.js -u jonwohl -d www.openframe.io
+$ node frame.js -u jonwohl -f Home -d openframe.io
 ```
 
 The presence of the `-c` flag will force the system to try to open the frame using Chromium instead of whatever the default browser is. At present, on linux Chromium is a required dependency, and will always be used.
+
+The presence of the `-r` flag will reset the frame, causing the server to treat it as if it is an entirely new frame.
 
