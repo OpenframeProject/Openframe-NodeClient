@@ -27,62 +27,53 @@
 
 <body>
     <script type="text/javascript" src="/js/libs/jquery-2.1.3.js"></script>
+    <script type="text/javascript" src="/js/socker.js"></script>
     <script type="text/javascript">
-    var $body = $('body'),
-        connected = false,
-        domain,
-        username,
-        framename,
-        frame_id;
+    var _$body = $('body'),
+        _domain,
+        _username,
+        _framename,
+        _frame_id,
+        _width = window.innerWidth,
+        _height = window.innerHeight;
 
     $.getJSON('http://localhost:7000/config', function(resp) {
         // resp should contain the username and root_domain
-        domain = resp.root_domain;
-        username = resp.owner;
-        framename = resp.name;
-        frame_id = resp._id.$oid;
-        setInterval(check_connection, 5000);
-        check_connection();
+        _domain = resp.root_domain;
+        _username = resp.owner;
+        _framename = resp.name;
+        _frame_id = resp._id.$oid;
+
+        Socker.connect("ws://" + _domain + "/ws/" + _frame_id, {
+            onOpen: function() {
+                Socker.send('frame:setup', {width: _width, height: _height});
+            }
+        });
+
+        Socker.on('frame:update_content', _handleUpdateContent);
     });
 
-    function check_connection() {
-        if (!connected) {
-            connect_ws(domain, frame_id);
-        }
-    }
-
-    // initializes WebSocket connection
-    function connect_ws(root_domain, frame_id) {
-        console.log('init WebSocket connection for this frame ' + frame_id);
-        var ws = new WebSocket("ws://" + root_domain + "/ws/" + frame_id);
-
-        ws.onopen = function() {
-            console.log('connection open');
-            ws.send("connecting as " + frame_id);
-            connected = true;
-        };
-
-        ws.onmessage = function(evt) {
-            var data = JSON.parse(evt.data);
-            console.log(data);
-            if (data.url) {
-                $body.animate({
-                    'opacity': 0
-                }, 1000, function() {
-                    $body.css({
-                        'background-image': 'url("' + data.url + '")'
-                    });
-                    $body.animate({
-                        'opacity': 1
-                    }, 1000);
+    
+    function _handleUpdateContent(content) {
+        _id = content._id.$oid || content._id;
+        
+        _$body.animate({
+                'opacity': 0
+            }, 1000, function() {
+                _$body.css({
+                    'background-image': 'url("' + content.url + '")'
                 });
-            }
+                _$body.animate({
+                    'opacity': 1
+                }, 1000);
+            });
+
+        var data = {
+            frame_id: _frame_id,
+            content_id: _id
         };
 
-        ws.onclose = function(evt) {
-            console.log('connection closed');
-            connected = false;
-        };
+        Socker.send('frame:content_updated', data);
     }
     </script>
 </body>
