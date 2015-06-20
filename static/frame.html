@@ -7,7 +7,7 @@
     * {
         cursor: none
     }
-    
+
     html,
     body {
         width: 100%;
@@ -16,7 +16,7 @@
         margin: 0;
         background-color: #000;
     }
-    
+
     body {
         background-repeat: no-repeat;
         background-position: center center;
@@ -42,7 +42,7 @@
         _domain = resp.root_domain;
         _username = resp.owner;
         _framename = resp.name;
-        _frame_id = resp._id.$oid;
+        _frame_id = resp._id;
 
         Socker.connect("ws://" + _domain + "/ws/" + _frame_id, {
             onOpen: function() {
@@ -53,10 +53,10 @@
         Socker.on('frame:update_content', _handleUpdateContent);
     });
 
-    
+
     function _handleUpdateContent(content) {
         _id = content._id.$oid || content._id;
-        
+
         _$body.animate({
                 'opacity': 0
             }, 1000, function() {

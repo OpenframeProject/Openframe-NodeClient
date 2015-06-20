@@ -7,8 +7,14 @@ Socker = (function() {
             checkInterval: 10000
         },
         _url,
-        _ws;
+        _ws,
+        _timer;
 
+    /**
+     * Create a websocket connection.
+     * @param  {string} url  The server URL.
+     * @param  {object} opts Optional settings
+     */
     function _connect(url, opts) {
         _url = url;
         if (opts) _extend(_opts, opts);
@@ -44,7 +50,8 @@ Socker = (function() {
         };
 
         if (_opts.keepAlive) {
-            setInterval(_checkConnection, _opts.checkInterval);
+            clearInterval(_timer);
+            _timer = setInterval(_checkConnection, _opts.checkInterval);
         }
     }
 
@@ -79,8 +86,14 @@ Socker = (function() {
         }
     }
 
+    /**
+     * Send an event.
+     * @param  {[type]} name [description]
+     * @param  {[type]} data [description]
+     * @return {[type]}      [description]
+     */
     function _send(name, data) {
-        message = {
+        var message = {
             name: name,
             data: data
         };
@@ -88,12 +101,21 @@ Socker = (function() {
         _ws.send(JSON.stringify(message));
     }
 
+    /**
+     * Check if the connection is established. If not, try to reconnect.
+     * @return {[type]} [description]
+     */
     function _checkConnection() {
         if (!_connected) {
             _connect(_url, _opts);
         }
     }
 
+    /**
+     * Utility function for extending an object.
+     * @param  {[type]} obj [description]
+     * @return {[type]}     [description]
+     */
     function _extend(obj) {
         Array.prototype.slice.call(arguments, 1).forEach(function(source) {
             if (source) {
@@ -112,3 +134,6 @@ Socker = (function() {
     _self.connect = _connect;
     return _self;
 })();
+
+// COMMON.JS
+if (typeof module != 'undefined' && module.exports) module.exports = Socker;

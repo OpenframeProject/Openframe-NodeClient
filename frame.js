@@ -36,6 +36,7 @@ var request = require('request-json');
 var client = request.createClient('http://'+root_domain);
 var conf;
 
+console.log(client);
 
 // If reset flag is present, remove the conf
 // TODO: delete existing frame from server on reset.
@@ -80,7 +81,7 @@ try {
 	    });
     } else {
 	    conf.root_domain = root_domain;
-	    if (conf) startServer();   	
+	    if (conf) startServer();
     }
 } catch (e) {
     // no conf file, create new frame and save resulting conf
@@ -88,7 +89,10 @@ try {
         owner: username,
         users: [username],
         name: framename,
-        active: false
+        active: false,
+        settings: {
+            visible: true
+        }
     };
 
     client.post('/frames', frame, function(err, res, body) {
@@ -113,9 +117,9 @@ function createConfigFile(conf) {
 }
 
 
-//create node.js http server and listen on port 
+//create node.js http server and listen on port
 function startServer() {
-	http.createServer(app).listen(7000);	
+	http.createServer(app).listen(7000);
 	launchFrame();
 }
 
@@ -137,7 +141,7 @@ function launchFrame() {
 	    } else {
 	        open("http://localhost:7000");
 	    }
-	}	
+	}
 }
 
 
