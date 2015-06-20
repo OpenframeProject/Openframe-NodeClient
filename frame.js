@@ -66,8 +66,12 @@ try {
     	// TODO: if the supplied user or framename don't match the conf, update the frame on the server?
     	var frame = {
 	        owner: username,
-	        users: [username],
-	        name: framename
+            users: [username],
+            name: framename,
+            active: false,
+            settings: {
+                visible: true
+            }
 	    };
     	client.put('/frames/'+conf._id.$oid, frame, function(err, res, body) {
 	    	if (err) console.log(err);
