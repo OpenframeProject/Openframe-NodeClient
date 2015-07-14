@@ -41,7 +41,7 @@ You should now be able to run the client (see Usage).
 $ node frame.js -u username -f framename [-d domain] [-c] [-r]
 ```
 
-As an example, to start up the frame for user jonwohl, with a server at www.openframe.io:
+As an example, to start up the frame for user jonwohl, with a server at openframe.io:
 
 ```bash
 $ node frame.js -u jonwohl -f Home -d openframe.io
