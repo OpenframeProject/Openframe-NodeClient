@@ -25,4 +25,7 @@ cd $DIR
 cd ..
 npm install
 
+echo ""
 echo "You must restart your shell, or run the following command: source ~/.bashrc"
+echo "After reloading .bashrc, you can launch the frame with: $DIR/../launch.sh -u [USERNAME] -f [FRAME_NAME] -d [DOMAIN]"
+echo "For example: $DIR/../launch.sh -u jonwohl -f Home -d openframe.io"
