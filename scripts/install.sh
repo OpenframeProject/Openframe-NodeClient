@@ -15,9 +15,6 @@ curl https://raw.githubusercontent.com/creationix/nvm/master/install.sh | sh
 source ~/.nvm/nvm.sh
 # install latest tested stable Nodejs
 nvm install 5.0.0
-# set 5.0.0 as default system Nodejs version
-# this means 5.0.0 will be in the $PATH when you boot
-nvm alias default 5.0.0
 
 # install chromium from package repository
 sudo apt-get update
